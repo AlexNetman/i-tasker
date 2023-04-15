@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление задачи</title>
+</head>
+<body>
+    <header></header>
+    <main>
+    <h1>Добавить задачу</h1>
+    <div class="form-container">
+    <form id="task-form" onsubmit="saveTask(event)">
+        <div class="form-field">
+            <label for="task-name">Название задачи:</label>
+            <input type="text"  class="long-text" id="task-name" name="task-name">
+        </div>
+        <div class="other-fields">
+        <div class="form-field">
+            <label for="importance">Важность:</label>
+            <input type="number" id="importance" name="importance" min="1" max="10">
+        </div>
+        <div class="form-field">
+            <label for="urgency">Срочность:</label>
+            <input type="number" id="urgency" name="urgency" min="1" max="10">
+        </div>
+        <div class="form-field">
+            <label for="ease">Лёгкость:</label>
+            <input type="number" id="ease" name="ease" min="1" max="10">
+        </div>
+        <div class="form-field">
+            <label for="motivation">Желание:</label>
+            <input type="number" id="motivation" name="motivation" min="1" max="10">
+        </div>
+        <div class="form-field">
+            <label for="time-interval">Промежуток времени:</label>
+            <input type="text" id="time-interval" name="time-interval">
+        </div>
+    </div> 
+        <input type="submit" value="Добавить задачу">
+    </form>
+</div>
+
+    <h2>Список задач</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Название задачи</th>
+                <th>Важность</th>
+                <th>Срочность</th>
+                <th>Лёгкость</th>
+                <th>Желание</th>
+                <th>Промежуток времени</th>
+            </tr>
+        </thead>
+        <tbody id="tasks-table-body"></tbody>
+    </table>
+    </main>
+</body>
+</html>
