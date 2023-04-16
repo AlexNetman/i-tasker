@@ -80,3 +80,19 @@ function displayTasks() {
 }
 
 document.addEventListener('DOMContentLoaded', displayTasks);
+
+
+//other - user service-worker for PWA app
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker
+        .register('service-worker.js')
+        .then((registration) => {
+          console.log('Service Worker: Registered', registration);
+        })
+        .catch((error) => {
+          console.log('Service Worker: Failed to Register', error);
+        });
+    });
+  }
+  
