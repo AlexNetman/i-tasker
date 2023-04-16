@@ -24,40 +24,28 @@ function deleteTask(index) {
     displayTasks();
 }
 
-function displayTasks() {
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    const tableBody = document.getElementById('tasks-table-body');
-    tableBody.innerHTML = '';
 
-    tasks.forEach((task, index) => {
-        const row = document.createElement('tr');
+function calculateTaskWeight(task) {
+    // Настраиваемые весовые коэффициенты для каждого параметра
+    const importanceWeight = 1.0;
+    const urgencyWeight = 1.0;
+    const easeWeight = 0.5;
+    const motivationWeight = 0.5;
 
-        for (const key in task) {
-            const cell = document.createElement('td');
-            cell.textContent = task[key];
-            row.appendChild(cell);
-        }
+    // Вычисляем вес задачи
+    const taskWeight =
+        task.importance * importanceWeight +
+        task.urgency * urgencyWeight +
+        task.ease * easeWeight +
+        task.motivation * motivationWeight;
 
-        // Добавляем кнопку удаления
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Удалить';
-        deleteButton.addEventListener('click', () => deleteTask(index));
-
-        const deleteCell = document.createElement('td');
-        deleteCell.appendChild(deleteButton);
-        row.appendChild(deleteCell);
-
-        tableBody.appendChild(row);
-    });
+    return taskWeight;
 }
 
-document.addEventListener('DOMContentLoaded', displayTasks);
 
 function displayTasks() {
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    
-    // Сортируем задачи по важности в порядке убывания
-    tasks.sort((a, b) => b.importance - a.importance);
+    tasks.sort((a, b) => calculateTaskWeight(b) - calculateTaskWeight(a));
 
     const tableBody = document.getElementById('tasks-table-body');
     tableBody.innerHTML = '';
@@ -65,20 +53,27 @@ function displayTasks() {
     tasks.forEach((task, index) => {
         const row = document.createElement('tr');
 
+        // Добавляем кнопку удаления
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'x';
+        deleteButton.addEventListener('click', () => deleteTask(index));
+
+        const deleteCell = document.createElement('td');
+        deleteCell.appendChild(deleteButton);
+        row.appendChild(deleteCell);
+
+        const priorityCell = document.createElement('td');
+        priorityCell.textContent = calculateTaskWeight(task).toFixed(2);
+        row.appendChild(priorityCell);
+
+
         for (const key in task) {
             const cell = document.createElement('td');
             cell.textContent = task[key];
             row.appendChild(cell);
         }
 
-        // Добавляем кнопку удаления
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Удалить';
-        deleteButton.addEventListener('click', () => deleteTask(index));
 
-        const deleteCell = document.createElement('td');
-        deleteCell.appendChild(deleteButton);
-        row.appendChild(deleteCell);
 
         tableBody.appendChild(row);
     });
